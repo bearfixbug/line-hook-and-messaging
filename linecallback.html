@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+    <h2>Line login</h2>
+    <button onclick="login()">
+        Login now
+    </button>
+
+    <h2 id="linename"></h2>
+    <img id="lineimg" src="" style="width: 50px; height: 50px; object-fit: cover;">
+    <h4 id="lineid"></h4>
+
+    <script>
+        
+        function login() {
+            console.log("init")
+            liff.init({
+                liffId: "<LIFF_ID>"
+            })
+            liff.ready.then(() => {
+                if(!liff.isLoggedIn()) {
+                    console.log("not login")
+                    liff.login()
+                }
+                liff.getProfile().then((profile) => {
+                    console.log("login success")
+                    console.log("Profile", profile)
+
+                    var linename = document.querySelector("#linename")
+                    var lineimg = document.querySelector("#lineimg")
+                    var lineid = document.querySelector("#lineid")
+
+                    linename.innerHTML = profile.displayName;
+                    lineid.innerHTML = profile.userId;
+                    lineimg.src = profile.pictureUrl;
+
+                })
+            })
+        }
+    </script>
+</body>
+</html>
